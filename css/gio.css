@@ -1,0 +1,40 @@
+body
+{
+	background-image: url('../img/bg/bg2.png');
+}
+
+.row 
+{
+	padding-top: 250px;
+	
+}
+
+.row h2
+{
+	font-family: 'Sacramento';
+	font-size: 60px;
+	color: #627F7F;
+}
+
+.row img
+{
+	padding-bottom: 20px;
+}
+
+.row a
+{
+	background-color: #749696;
+	padding: 20px;
+	color: #fff;
+	display: inline-block;
+	margin-top: 20px;
+	border-radius: 20px
+}
+
+.row a:hover
+{
+	text-decoration: none;
+	color:  #fff;
+	background-color: #627F7F;
+}
+

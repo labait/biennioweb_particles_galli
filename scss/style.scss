@@ -1,0 +1,51 @@
+body,html
+{
+    height: 100%;
+    margin:0px;
+    padding:0px;
+    background-color: red;
+}
+#wrapper
+{
+	width: 100%;
+	height: 100%;
+	transform : translateZ(0);
+	background: url(http://i.imgur.com/YNT7TPc.jpg);
+	overflow: hidden;
+    margin:0px;
+    padding:0px;
+}
+
+.box
+{
+	transition: transform linear;
+    -moz-transition: -moz-transform linear;
+	transform : translateZ(0);
+	position: absolute;
+	text-align: center;
+	border-radius: 50%;
+	background-color: orange;
+    border: solid 1px black;
+    width: 200px;
+    height: 200px;
+  //overflow: hidden;
+  background-size: 100px;
+}
+
+.box.over {
+  background-color: green;
+}
+
+
+.box .content {
+  display: none;
+  font-size: 2em;
+}
+
+#box1 {
+  background-image: url("https://gif.daneden.me/think.gif");
+}
+
+#box2 .content{
+  margin-top: 50px;
+}

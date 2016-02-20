@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>laba - particles collision</title>
+
+
+
+
+        <link rel="stylesheet" href="css/style.css">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+       <!-- web fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+  </head>
+
+  <body>
+
+
+
+    <div id="wrapper">
+
+      <div id="box1" class="box zoomTarget">
+        <div class="content">
+          <div class="info"></div>
+        <div class="image">
+          <a href="billy.html">
+          <img src="img/billy.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box2" class="box zoomTarget">
+        <div class="content">
+        <div class="info"></div>
+        <div class="image">
+          <a href="fede.html">
+          <img src="img/testa2.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box3" class="box zoomTarget">
+        <div class="content">
+        <div class="info"></div>
+        <div class="image">
+          <a href="ale.html">
+          <img src="img/ale.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <!--
+      <div id="box4" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="aleve.html">
+          <img src="img/aleve.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box5" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="alice.html">
+          <img src="img/alice.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box6" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="andri.html">
+          <img src="img/andri.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box7" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="bi.html">
+          <img src="img/bi.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box8" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="edoardo.html">
+          <img src="img/edoardo.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box9" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="filippo.html">
+          <img src="img/filippo.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box10" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="giamma.html">
+          <img src="img/giamma.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+       <div id="box11" class="box zoomTarget">
+       <div class="content">
+         <div class="info"></div>
+        <div class="image">
+        <a href="gio.html">
+          <img src="img/gio.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box12" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="ronni.html">
+          <img src="img/ronni.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box13" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="giuliav.html">
+          <img src="img/giuliav.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box14" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="lucia.html">
+          <img src="img/lucia.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box15" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="mille.html">
+          <img src="img/mille.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box16" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="nicola.html">
+          <img src="img/nicola.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box17" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="nova.html">
+          <img src="img/nova.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box18" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="ste.html">
+          <img src="img/ste.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box19" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="stefano.html">
+          <img src="img/stefano.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box20" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="togno.html">
+          <img src="img/togno.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+
+      <div id="box21" class="box zoomTarget">
+      <div class="content">
+        <div class="info"></div>
+        <div class="image">
+        <a href="tipa.html">
+          <img src="img/tipa.gif">
+          </a>
+        </div>
+        </div>
+      </div>
+    -->
+
+    </div>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://serverditest.com/laba_biennio/jquery.zoomooz.min.js'></script>
+
+    <script src="js/index.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+
+
+
+  </body>
+</html>
