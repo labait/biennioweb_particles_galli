@@ -23,7 +23,6 @@ body, html {
   text-align: center;
   border-radius: 50%;
   background-size: 50px;
-  border: 1px solid red;
   overflow: hidden;
 }
 
@@ -41,7 +40,6 @@ body, html {
 .box img
 {
   width: 100%;
-  border: 1px solid green;
 }
 
 .box .info {

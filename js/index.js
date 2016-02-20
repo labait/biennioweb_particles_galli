@@ -1,5 +1,6 @@
 // some parts taken from http://jsfiddle.net/inkfood/juzsR/
 
+var DEBUG = true
 var boxArray = []
 var maxBalls = 0
 var speed = 10
@@ -27,17 +28,19 @@ $(function(){
 
 function init()
 {
-  maxBalls = $("#wrapper .box").length
-  var minDist = window.innerHeight / maxBalls;
+  //maxBalls = $("#wrapper .box").length
+  var minDist = window.innerHeight / $("#wrapper .box").length;
 	//for (var i=0;i<maxBalls;i++){
   $("#wrapper .box").each(function(i, box){
-    $(box).css({
+    maxBalls+=1
+    box = $(box)
+    box.css({
       width: boxRadius+"px",
       height: boxRadius+"px"
     })
-    //$(box).append('<a href="#" class="zoomTarget">link</a>')
-    $(box).addClass("zoomTarget")
-		$(box).addClass("box")
+    //box.append('<a href="#" class="zoomTarget">link</a>')
+    box.addClass("zoomTarget")
+		box.addClass("box")
 
 		box.left =Math.round(Math.random()*window.innerWidth-boxRadius);
 		//box.top = Math.round(Math.random()*390);
@@ -47,26 +50,26 @@ function init()
 		box.xspeed = Math.round(Math.random()*speed-speed/2);
 		box.yspeed = Math.round(Math.random()*speed-speed/2);
 
-    document.getElementById('wrapper').appendChild(box);
+    $('wrapper').append(box);
 
-    $(box).data().collision_count = 0
-    $(box).find(".info").text(i)
+    box.data().collision_count = 0
+    box.find(".info").text(i)
 
-    $(box).on("mouseover", function(event){
+    box.on("mouseover", function(event){
       if(!zooming) {
         $(this).addClass("over")
         $(this).css("z-index",maxBalls+1)
       }
     })
 
-    $(box).on("mouseout", function(event){
+    box.on("mouseout", function(event){
       if(!zooming) {
         $(this).removeClass("over")
         $(this).css("z-index",maxBalls-1)
       }
     })
 
-    $(box).on("click", function(event){
+    box.on("click", function(event){
         /*if(!zooming) {
 
         var zoomSettings = {
@@ -83,7 +86,7 @@ function init()
         zooming = true
 
       }
-       */
+      */
     })
 
     $("body").on("click", function(){
@@ -97,6 +100,12 @@ function init()
 
 	})
 	if(boxArray.length == maxBalls) tick()
+
+  //
+  if(DEBUG) {
+    $(".box").css("border", "1px solid red")
+    $(".box img").css("border", "1px solid green;")
+  }
 }
 
 function addSpeed()
@@ -104,19 +113,14 @@ function addSpeed()
 }
 
 function moveBall(){
-		for (var i=0;i<maxBalls;i++) {
+		for (var i=0;i<boxArray.length;i++) {
       var box = boxArray[i]
-      var $box = $(box)
       //console.log("zooming: "+zooming)
-      if(!$box.hasClass("over") && !zooming){
+      if(!box.hasClass("over") && !zooming){
         // BOUNDARIES
-        // left
   			if (box.left<0) {box.left = 0;box.xspeed *= -1;}
-        // right
   			if (box.left>window.innerWidth-boxRadius) {box.left = window.innerWidth-boxRadius;box.xspeed *= -1;}
-        // top
         if (box.top<0) {box.top = 0;box.yspeed *= -1;}
-        // bottom
   			if (box.top>window.innerHeight-boxRadius) {box.top = innerHeight-boxRadius;box.yspeed *= -1;}
 
   			// get new position
@@ -124,16 +128,16 @@ function moveBall(){
   			box.top += box.yspeed;
 
   			// apply new position
-  			box.style.WebkitTransform = "translate("+box.left+"px,"+box.top+"px)";//2D Transform
+  			box.css('transform', "translate("+box.left+"px,"+box.top+"px)") //2D Transform
   			//box.style.WebkitTransform = "translate3D("+box.left+"px,"+box.top+"px,0px)";//3D Transform fo better Performance?? -> "testing"
-        box.style.MozTransform = "translate3D("+box.left+"px,"+box.top+"px,0px)";
+        //box.MozTransform = "translate3D("+box.left+"px,"+box.top+"px,0px)";
 
         // setting info
-        var collision_count = $(box).data().collision_count
+        var collision_count = box.data().collision_count
         var info_text = collision_count
         var info_text_size_em = 1+1*collision_count/1000
-        $(box).find(".info").css("font-size", info_text_size_em+"em")
-        $(box).find(".info").text(info_text)
+        box.find(".info").css("font-size", info_text_size_em+"em")
+        box.find(".info").text(info_text)
       }
 
 		}
@@ -170,46 +174,38 @@ function manage_bounce(box, box2) {
 
 function tick(){
   moveBall()
-  for (x=0; x<=maxBalls; x++)
+  for (x=0; x<=boxArray.length; x++)
    {
-      for (y=x+1; y<maxBalls; y++)
+      for (y=x+1; y<boxArray.length; y++)
       {
-      	distance_x = Math.abs(boxArray[x].left-boxArray[y].left);
-      	distance_y = Math.abs(boxArray[x].top-boxArray[y].top);
+        var box1 = boxArray[x]
+        var box2 = boxArray[y]
+
+      	distance_x = Math.abs(box1.left-box2.left);
+      	distance_y = Math.abs(box1.top-box2.top);
       	distance = Math.abs(Math.sqrt(distance_x*distance_x+distance_y*distance_y));
 
-        if(distance < boxRadius)
-        {
+      	if (distance<=boxRadius+1 && (box1.collision == 0 || box2.collision == 0)){
+      		box1.collision = 1;
+          box2.collision = 1;
 
-        }
-
-      	if (distance<=boxRadius+1 && (boxArray[x].collision == 0 || boxArray[y].collision == 0)){
-      		boxArray[x].collision = 1;
-          boxArray[y].collision = 1;
-
-          /*
-          manage_bounce(boxArray[x], boxArray[y]);
-          var box1 = boxArray[x]
-          var box2 = boxArray[y]
-          $(box1).data().collision_count++;
-          $(box2).data().collision_count++;
+          /**/
+          manage_bounce(box1, box2);
+          box1.data().collision_count++;
+          box2.data().collision_count++;
           //console.log($(box).data().collision_count)
-          if($(box1).data().collision_count > $(box1).data().collision_count) {
-            $(box2).remove()
+          if(box1.data().collision_count > box1.data().collision_count) {
+            //box2.remove()
             //boxArray.splice(x, 1);
           } else {
             //$(box1).remove()
             //boxArray.splice(y, 1);
           }
-          */
-
-
       	}
       	else if (distance>boxRadius+1){
-              boxArray[x].collision = 0;
-              boxArray[y].collision = 0;
+              box1.collision = 0;
+              box2.collision = 0;
         }
-
       	//window.console.log(distance)
       }
    }
