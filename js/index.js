@@ -103,111 +103,95 @@ function init()
 
   //
   if(DEBUG) {
-    $(".box").css("border", "1px solid red")
-    $(".box img").css("border", "1px solid green;")
+    $(".box").css("border", "1px solid black")
+    $(".box img").css("border", "1px solid green")
   }
 }
 
-function addSpeed()
-{
-}
 
 function moveBall(){
-		for (var i=0;i<boxArray.length;i++) {
-      var box = boxArray[i]
-      //console.log("zooming: "+zooming)
-      if(!box.hasClass("over") && !zooming){
-        // BOUNDARIES
-  			if (box.left<0) {box.left = 0;box.xspeed *= -1;}
-  			if (box.left>window.innerWidth-boxRadius) {box.left = window.innerWidth-boxRadius;box.xspeed *= -1;}
-        if (box.top<0) {box.top = 0;box.yspeed *= -1;}
-  			if (box.top>window.innerHeight-boxRadius) {box.top = innerHeight-boxRadius;box.yspeed *= -1;}
-
-  			// get new position
-  			box.left += box.xspeed;
-  			box.top += box.yspeed;
-
-  			// apply new position
-  			box.css('transform', "translate("+box.left+"px,"+box.top+"px)") //2D Transform
-  			//box.style.WebkitTransform = "translate3D("+box.left+"px,"+box.top+"px,0px)";//3D Transform fo better Performance?? -> "testing"
-        //box.MozTransform = "translate3D("+box.left+"px,"+box.top+"px,0px)";
-
-        // setting info
-        var collision_count = box.data().collision_count
-        var info_text = collision_count
-        var info_text_size_em = 1+1*collision_count/1000
-        box.find(".info").css("font-size", info_text_size_em+"em")
-        box.find(".info").text(info_text)
-      }
-
-		}
-   		//box.style.WebkitTransform = "translate("+box.dx+"px,"+box.dy+"px)";
-}
-
-function manage_bounce(box, box2) {
-
-    dx = box.left-box2.left;
-    dy = box.top-box2.top;
-    collisionision_angle = Math.atan2(dy, dx);
-    magnitude_1 = Math.sqrt(box.xspeed*box.xspeed+box.yspeed*box.yspeed);
-    magnitude_2 = Math.sqrt(box2.xspeed*box2.xspeed+box2.yspeed*box2.yspeed);
-    direction_1 = Math.atan2(box.yspeed, box.xspeed);
-    direction_2 = Math.atan2(box2.yspeed, box2.xspeed);
-    new_xspeed_1 = magnitude_1 * Math.cos(direction_1-collisionision_angle);
-    new_yspeed_1 = magnitude_1 * Math.sin(direction_1-collisionision_angle);
-    new_xspeed_2 = magnitude_2 * Math.cos(direction_2-collisionision_angle);
-    new_yspeed_2 = magnitude_2 * Math.sin(direction_2-collisionision_angle);
-    final_xspeed_1 = ((box.mass-box2.mass) * new_xspeed_1+(box2.mass+box2.mass) * new_xspeed_2)/(box.mass+box2.mass);
-    final_xspeed_2 = ((box.mass+box.mass) * new_xspeed_1+(box2.mass-box.mass) * new_xspeed_2)/(box.mass+box2.mass);
-    final_yspeed_1 = new_yspeed_1;
-    final_yspeed_2 = new_yspeed_2;
-    box.xspeed = Math.cos(collisionision_angle) * final_xspeed_1+Math.cos(collisionision_angle+Math.PI/2) * final_yspeed_1;
-    box.yspeed = Math.sin(collisionision_angle) * final_xspeed_1+Math.sin(collisionision_angle+Math.PI/2) * final_yspeed_1;
-    box2.xspeed = Math.cos(collisionision_angle) * final_xspeed_2+Math.cos(collisionision_angle+Math.PI/2) * final_yspeed_2;
-    box2.yspeed = Math.sin(collisionision_angle) * final_xspeed_2+Math.sin(collisionision_angle+Math.PI/2)*final_yspeed_2;
-
-    //
-
 
 }
 
 
 function tick(){
-  moveBall()
-  for (x=0; x<=boxArray.length; x++)
-   {
-      for (y=x+1; y<boxArray.length; y++)
-      {
-        var box1 = boxArray[x]
+  for (x=0; x<boxArray.length; x++){
+     var box1 = boxArray[x]
+     //console.log("zooming: "+zooming)
+     if(!box1.hasClass("over") && !zooming){
+       // BOUNDARIES
+       if (box1.left<0) {box1.left = 0;box1.xspeed *= -1;}
+       if (box1.left>window.innerWidth-boxRadius) {box1.left = window.innerWidth-boxRadius;box1.xspeed *= -1;}
+       if (box1.top<0) {box1.top = 0;box1.yspeed *= -1;}
+       if (box1.top>window.innerHeight-boxRadius) {box1.top = innerHeight-boxRadius;box1.yspeed *= -1;}
+
+       // get new position
+       box1.left += box1.xspeed;
+       box1.top += box1.yspeed;
+
+       // apply new position
+       box1.css('transform', "translate("+box1.left+"px,"+box1.top+"px)") //2D Transform
+       //box1.style.WebkitTransform = "translate3D("+box1.left+"px,"+box1.top+"px,0px)";//3D Transform fo better Performance?? -> "testing"
+       //box1.MozTransform = "translate3D("+box1.left+"px,"+box1.top+"px,0px)";
+
+       // setting info
+       var collision_count = box1.data().collision_count
+       var info_text = collision_count
+       var info_text_size_em = 1+1*collision_count/1000
+       box1.find(".info").css("font-size", info_text_size_em+"em")
+       box1.find(".info").text(info_text)
+     }
+
+
+    for (y=0; y<boxArray.length; y++) {
+      if(y!=x) {
         var box2 = boxArray[y]
 
-      	distance_x = Math.abs(box1.left-box2.left);
-      	distance_y = Math.abs(box1.top-box2.top);
-      	distance = Math.abs(Math.sqrt(distance_x*distance_x+distance_y*distance_y));
+        distance_x = Math.abs(box1.left-box2.left);
+        distance_y = Math.abs(box1.top-box2.top);
+        distance = Math.abs(Math.sqrt(distance_x*distance_x+distance_y*distance_y));
 
-      	if (distance<=boxRadius+1 && (box1.collision == 0 || box2.collision == 0)){
-      		box1.collision = 1;
-          box2.collision = 1;
-
+        if (distance<=boxRadius){
+          $(box1).addClass("collision")
+          $(box2).addClass("collision")
           /**/
           manage_bounce(box1, box2);
-          box1.data().collision_count++;
-          box2.data().collision_count++;
           //console.log($(box).data().collision_count)
-          if(box1.data().collision_count > box1.data().collision_count) {
-            //box2.remove()
-            //boxArray.splice(x, 1);
-          } else {
-            //$(box1).remove()
-            //boxArray.splice(y, 1);
-          }
-      	}
-      	else if (distance>boxRadius+1){
-              box1.collision = 0;
-              box2.collision = 0;
+        } else {
+
         }
-      	//window.console.log(distance)
       }
-   }
-  requestAnimFrame( tick );//RUN THE NEXT TICK
+
+
+    }
+  }
+  requestAnimFrame( tick ); //RUN THE NEXT TICK
+}
+
+
+function manage_bounce(box1, box2) {
+  box1.data().collision_count++;
+  box2.data().collision_count++;
+
+  dx = box1.left-box2.left;
+  dy = box1.top-box2.top;
+  collisionision_angle = Math.atan2(dy, dx);
+  magnitude_1 = Math.sqrt(box1.xspeed*box1.xspeed+box1.yspeed*box1.yspeed);
+  magnitude_2 = Math.sqrt(box2.xspeed*box2.xspeed+box2.yspeed*box2.yspeed);
+  direction_1 = Math.atan2(box1.yspeed, box1.xspeed);
+  direction_2 = Math.atan2(box2.yspeed, box2.xspeed);
+  new_xspeed_1 = magnitude_1 * Math.cos(direction_1-collisionision_angle);
+  new_yspeed_1 = magnitude_1 * Math.sin(direction_1-collisionision_angle);
+  new_xspeed_2 = magnitude_2 * Math.cos(direction_2-collisionision_angle);
+  new_yspeed_2 = magnitude_2 * Math.sin(direction_2-collisionision_angle);
+  final_xspeed_1 = ((box1.mass-box2.mass) * new_xspeed_1+(box2.mass+box2.mass) * new_xspeed_2)/(box1.mass+box2.mass);
+  final_xspeed_2 = ((box1.mass+box1.mass) * new_xspeed_1+(box2.mass-box1.mass) * new_xspeed_2)/(box1.mass+box2.mass);
+  final_yspeed_1 = new_yspeed_1;
+  final_yspeed_2 = new_yspeed_2;
+  box1.xspeed = Math.cos(collisionision_angle) * final_xspeed_1+Math.cos(collisionision_angle+Math.PI/2) * final_yspeed_1;
+  box1.yspeed = Math.sin(collisionision_angle) * final_xspeed_1+Math.sin(collisionision_angle+Math.PI/2) * final_yspeed_1;
+  box2.xspeed = Math.cos(collisionision_angle) * final_xspeed_2+Math.cos(collisionision_angle+Math.PI/2) * final_yspeed_2;
+  box2.yspeed = Math.sin(collisionision_angle) * final_xspeed_2+Math.sin(collisionision_angle+Math.PI/2)*final_yspeed_2;
+  $(box1).removeClass("collision")
+  $(box2).removeClass("collision")
 }
