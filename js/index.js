@@ -7,6 +7,7 @@ var speed = 10
 var speedLimit = 4
 var boxRadius= 200
 var zooming = false
+var animation_enabled = true
 
 $(function(){
   init();
@@ -26,8 +27,11 @@ $(function(){
 
 
 
-function init()
-{
+function init(){
+
+  $("body").click(function(event){
+    animation_enabled = !animation_enabled
+  })
   //maxBalls = $("#wrapper .box").length
   var minDist = window.innerHeight / $("#wrapper .box").length;
 	//for (var i=0;i<maxBalls;i++){
@@ -53,7 +57,6 @@ function init()
     $('wrapper').append(box);
 
     box.data().collision_count = 0
-    box.find(".info").text(i)
 
     box.on("mouseover", function(event){
       if(!zooming) {
@@ -90,9 +93,11 @@ function init()
     })
 
     $("body").on("click", function(){
+      /*
       $(".box").removeClass("over")
       $(".box").find(".content").hide()
       zooming = false
+      */
     })
 
 		boxArray.push(box);
@@ -115,61 +120,80 @@ function moveBall(){
 
 
 function tick(){
-  for (x=0; x<boxArray.length; x++){
-     var box1 = boxArray[x]
-     //console.log("zooming: "+zooming)
-     if(!box1.hasClass("over") && !zooming){
-       // BOUNDARIES
-       if (box1.left<0) {box1.left = 0;box1.xspeed *= -1;}
-       if (box1.left>window.innerWidth-boxRadius) {box1.left = window.innerWidth-boxRadius;box1.xspeed *= -1;}
-       if (box1.top<0) {box1.top = 0;box1.yspeed *= -1;}
-       if (box1.top>window.innerHeight-boxRadius) {box1.top = innerHeight-boxRadius;box1.yspeed *= -1;}
+  if(animation_enabled){
+    for (x in boxArray){
+       var box1 = boxArray[x]
+       box1.collisions = 0
+       //console.log("zooming: "+zooming)
+       if(!box1.hasClass("over") && !zooming){
+         // BOUNDARIES
+         if (box1.left<0) {box1.left = 0;box1.xspeed *= -1;}
+         if (box1.left>window.innerWidth-boxRadius) {box1.left = window.innerWidth-boxRadius;box1.xspeed *= -1;}
+         if (box1.top<0) {box1.top = 0;box1.yspeed *= -1;}
+         if (box1.top>window.innerHeight-boxRadius) {box1.top = innerHeight-boxRadius;box1.yspeed *= -1;}
 
-       // get new position
-       box1.left += box1.xspeed;
-       box1.top += box1.yspeed;
+         // get new position
+         box1.left += box1.xspeed;
+         box1.top += box1.yspeed;
 
-       // apply new position
-       box1.css('transform', "translate("+box1.left+"px,"+box1.top+"px)") //2D Transform
-       //box1.style.WebkitTransform = "translate3D("+box1.left+"px,"+box1.top+"px,0px)";//3D Transform fo better Performance?? -> "testing"
-       //box1.MozTransform = "translate3D("+box1.left+"px,"+box1.top+"px,0px)";
+         // apply new position
+         box1.css('transform', "translate("+box1.left+"px,"+box1.top+"px)") //2D Transform
+         //box1.style.WebkitTransform = "translate3D("+box1.left+"px,"+box1.top+"px,0px)";//3D Transform fo better Performance?? -> "testing"
+         //box1.MozTransform = "translate3D("+box1.left+"px,"+box1.top+"px,0px)";
 
-       // setting info
-       var collision_count = box1.data().collision_count
-       var info_text = collision_count
-       var info_text_size_em = 1+1*collision_count/1000
-       box1.find(".info").css("font-size", info_text_size_em+"em")
-       box1.find(".info").text(info_text)
-     }
+         // setting info
+         var collision_count = box1.data().collision_count
+         var info_text = collision_count
+         var info_text_size_em = 1+1*collision_count/1000
+         box1.find(".info").css("font-size", info_text_size_em+"em")
+         box1.find(".info").text(box1.attr("id")+" | "+info_text)
+       }
 
 
-    for (y=0; y<boxArray.length; y++) {
-      if(y!=x) {
+      for (y=0; y<boxArray.length; y++) {
         var box2 = boxArray[y]
-
         distance_x = Math.abs(box1.left-box2.left);
         distance_y = Math.abs(box1.top-box2.top);
         distance = Math.abs(Math.sqrt(distance_x*distance_x+distance_y*distance_y));
 
-        if (distance<=boxRadius){
-          $(box1).addClass("collision")
-          $(box2).addClass("collision")
-          /**/
-          manage_bounce(box1, box2);
-          //console.log($(box).data().collision_count)
-        } else {
+        if(y!=x){
+          if (distance<=boxRadius){
 
+            box2.addClass("collision")
+            box1.collisions += 1
+            box2.collisions += 1
+
+            /**/
+            manage_bounce(box1, box2);
+            //break;
+            //console.log($(box).data().collision_count)
+          } else {
+          }
         }
+        if(box1.collisions > 0) {
+          box1.addClass("collision")
+        } else {
+          box1.removeClass("collision")
+        }
+        if(box2.collisions > 0) {
+          box2.addClass("collision")
+        } else {
+          box2.removeClass("collision")
+        }
+
+        console.log("controllo "+box1.attr("id")+" con "+box2.attr("id")+", distance: "+distance)
+
+
       }
-
-
     }
+    console.log("-------------------")
+    requestAnimFrame( tick ); //RUN THE NEXT TICK
   }
-  requestAnimFrame( tick ); //RUN THE NEXT TICK
 }
 
 
 function manage_bounce(box1, box2) {
+  /*
   box1.data().collision_count++;
   box2.data().collision_count++;
 
@@ -192,6 +216,6 @@ function manage_bounce(box1, box2) {
   box1.yspeed = Math.sin(collisionision_angle) * final_xspeed_1+Math.sin(collisionision_angle+Math.PI/2) * final_yspeed_1;
   box2.xspeed = Math.cos(collisionision_angle) * final_xspeed_2+Math.cos(collisionision_angle+Math.PI/2) * final_yspeed_2;
   box2.yspeed = Math.sin(collisionision_angle) * final_xspeed_2+Math.sin(collisionision_angle+Math.PI/2)*final_yspeed_2;
-  $(box1).removeClass("collision")
-  $(box2).removeClass("collision")
+  */
+
 }
